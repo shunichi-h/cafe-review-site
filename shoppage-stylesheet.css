@@ -1,0 +1,256 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Hiragino Kaku Gothic ProN";
+  min-height: 100vh;
+  position: relative;
+  padding-bottom: 66px;
+}
+
+/*common */
+.container {
+  width: 100%;
+  max-width: 1170px;
+  padding: : 0 15px;
+  margin: 0 auto;
+}
+
+header {
+  background-color: #ffeb3b;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 10;
+}
+
+.header-left {
+  float: left;
+  color: #f57c01;
+  margin-left: 15px;
+  font-weight: bold;
+}
+
+.header-right {
+  float: right;
+  color: #f57c01;
+  margin-right: 15px;
+  font-weight: bold;
+}
+
+.clear {
+  clear: left;
+}
+
+.shopphoto-wrapper {
+  padding-top: 50px;
+}
+
+.shop-photo {
+  height: 500px;
+  border: 1px solid black;
+  margin: 30px auto 0 auto;
+  width: 80%;
+  position: relative;
+}
+
+.shop-image {
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  margin: auto;
+}
+
+.shop-infomation {
+  border: 1px solid black;
+  width: 80%;
+  margin: 0 auto;
+}
+
+.shop-infomation p {
+  
+}
+
+.first-line {
+  float: left;
+  width: 30%;
+  margin-left: 15px;
+}
+
+.second-line {
+  clear: left;
+  margin-bottom: 0;
+  margin-left: 15px;
+}
+
+.third-line {
+  float: left;
+  width: 40%;
+  margin-left: 15px;
+}
+
+.heading {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.review {
+  border: 1px solid black;
+  width: 80%;
+  border-radius: 5px;
+  margin: 30px auto;
+}
+
+.review-photo {
+  border: 1px solid #808080;
+  background-color: #c0c0c0;
+  display: inline-block;
+  height: 200px;
+  width: 30%;
+  margin: 15px;
+  float: left;
+}
+
+.review-image, .slide-image{
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  margin: auto;
+}
+
+.review-title {
+  
+  margin-bottom: 0;
+}
+
+.review-user {
+  text-align: right;
+  margin-top: 0;
+  margin-right: 15px;
+}
+
+.reviewbtn-wrapper {
+  text-align: center;
+}
+
+.review-btn {
+  border: 1px solid black;
+  padding: 10px 25px;
+  border-radius: 5px;
+  color: black;
+  text-decoration: none;
+  display: inline-block;
+  margin-bottom: 30px;
+  background-color: #ffeb3b;
+  font-size: 16px;
+}
+
+.review-rank {
+  display: inline;
+}
+
+.star-rating {
+  position: relative;
+  width: 5em;
+  height: 1em;
+  font-size: 25px;
+  display: inline-block;
+}
+.star-rating-front {
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: hidden;
+  color: #ffcc33;
+  z-index: 2;
+}
+.star-rating-back {
+  position: absolute;
+  top: 0;
+  left: 0;
+  color: #ccc;
+}
+
+
+footer {
+  background-color: #ffeb3b;
+  width: 100%;
+  text-align: center;
+  color: #f57c01;
+  font-weight: bold;
+  padding: 5px 0;
+  position: absolute;/*←絶対位置*/
+  bottom: 0; /*下に固定*/
+}
+
+@media screen and (max-width:767px) {
+
+  header p {
+    font-size: 13px;
+  }
+
+  footer p {
+    font-size: 13px;
+  }
+
+  .shop-text {
+    width: 40%;
+    float: left;
+    font-size: 10px;
+  }
+
+  .star-rating {
+    position: relative;
+    width: 5em;
+    height: 1em;
+    font-size: 15px;
+  }
+
+  .shop-photo {
+    height: 300px;
+  }
+
+  .shop-infomation h2 {
+    font-size: 18px;
+  }
+
+  .shop-infomation p {
+    font-size: 10px;
+  }
+
+  .review {
+    margin: 5px auto;
+    border: 1px solid black;
+    border-radius: 5px;
+    width: 90%;
+    cursor: pointer;
+
+  }
+
+  .review-photo {
+    border: 1px solid #808080;
+    background-color: #c0c0c0;
+    display: inline-block;
+    height: 100px;
+    width: 40%;
+    margin: 15px;
+    float: left;
+  }
+
+  .review-text {
+    width: 40%;
+    float: left;
+    font-size: 10px;
+  }
+
+  .review-btn {
+    font-size: 10px;
+  }
+
+
+}

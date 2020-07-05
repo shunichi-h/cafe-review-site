@@ -1,0 +1,199 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Hiragino Kaku Gothic ProN";
+  min-height: 100vh;
+  position: relative;
+  padding-bottom: 66px;
+}
+
+/*common */
+.container {
+  width: 100%;
+  max-width: 1170px;
+  padding: 0 15px;
+  margin: 0 auto;
+}
+
+header {
+  background-color: #ffeb3b;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 10;
+}
+
+.header-left {
+  float: left;
+  color: #f57c01;
+  margin-left: 15px;
+  font-weight: bold;
+}
+
+.header-right {
+  float: right;
+  color: #f57c01;
+  margin-right: 15px;
+  font-weight: bold;
+}
+
+.login-btn {
+  cursor: pointer;
+}
+
+.loginlogout-btn {
+  position: relative;
+  display: inline-block;
+}
+
+.loginlogoutbtn-tips {
+  position: absolute;
+  display: none;
+  top: 40px;
+  padding: 10px;
+  font-size: 12px;
+  line-height: 1.6em;
+  color: #fff;
+  border-radius: 5px;
+  background: #000;
+  width: 150px;
+  text-align: center;
+}
+
+.loginlogoutbtn-tips:before {
+  content: "";
+  position: absolute;
+  top: -24px;
+  right: 30%;
+  border: 15px solid transparent;
+  border-top: 15px solid #000;
+  margin-left: -15px;
+  transform: rotateZ(180deg);
+}
+
+.loginlogout-btn:hover + .loginlogoutbtn-tips{
+  display: block;
+}
+
+.clear {
+  clear: left;
+}
+
+.top-wrapper {
+  padding: 180px 0 180px 0;
+  background-image: url(top.jpeg);
+  background-size: cover;
+  background-position: center center;
+  color: white;
+  text-align: center;
+}
+
+.top-wrapper h1 {
+  text-shadow: 2px 2px 4px black;
+}
+
+.searchform-wrapper {
+  background-color: #ffeb3b;
+  
+}
+
+.searchform {
+  text-align: center;
+  padding: 10px 0 ;
+}
+
+.search {
+  font-size: 16px;
+}
+
+.prefecture {
+  margin-right: 20px;
+}
+
+.keyword {
+  width: 35%;
+}
+
+.info-wrapper {
+  text-align: center;
+}
+
+.login-btn-wrapper {
+  text-align: center;
+  margin: 30px 0;
+}
+
+.login-btn-wrapper p {
+  margin: 20px 0;
+}
+
+.btn {
+  text-decoration: none;
+}
+
+.login {
+  background-color:  #ffeb3b;
+  color: black;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 10px 25px;
+}
+
+.twitter {
+  background-color:  #55acee;
+  color: white;
+  margin-right: 20px;
+  font-weight: bold;
+  border-radius: 3px;
+  padding: 10px 15px;
+  margin-top: 0;
+}
+
+.fa-twitter {
+  margin-right: 8px;
+}
+
+footer {
+  background-color: #ffeb3b;
+  width: 100%;
+  text-align: center;
+  color: #f57c01;
+  font-weight: bold;
+  padding: 5px 0;
+  position: absolute;/*←絶対位置*/
+  bottom: 0; /*下に固定*/
+}
+
+
+@media screen and (max-width:767px) {
+  .btn {
+    display: inline-block;
+    width: 80%;
+  }
+
+  .twitter {
+    background-color:  #55acee;
+    margin-right: 0;
+    margin-bottom: 20px;
+  }
+
+  .top-wrapper h1 {
+    font-size: 20px;
+  }
+
+  .info-wrapper h2 {
+    font-size: 18px;
+  }
+
+  header p {
+    font-size: 13px;
+  }
+
+  footer p {
+    font-size: 13px;
+  }
+
+}

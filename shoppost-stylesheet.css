@@ -1,0 +1,154 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Hiragino Kaku Gothic ProN";
+  min-height: 100vh;
+  position: relative;
+  padding-bottom: 66px;
+}
+
+/*common */
+.container {
+  width: 100%;
+  max-width: 1170px;
+  padding: : 0 15px;
+  margin: 0 auto;
+}
+
+header {
+  background-color: #ffeb3b;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 10;
+}
+
+.header-left {
+  float: left;
+  color: #f57c01;
+  margin-left: 15px;
+  font-weight: bold;
+}
+
+.header-right {
+  float: right;
+  color: #f57c01;
+  margin-right: 15px;
+  font-weight: bold;
+}
+
+.clear {
+  clear: left;
+}
+
+.shoppostform-wrapper {
+  margin-top: 60px;
+  text-align: center;
+}
+
+.shoppostform-wrapper p { 
+  margin-bottom: 0;
+  width: 40%;
+  margin-left: auto;
+  margin-right: auto;
+  border:1px solid blue;
+}
+
+.heading {
+  margin-top: 100px;
+}
+
+.shopphoto1,.shopphoto2, .shopphoto3 {
+  margin-top: 10px;
+}
+
+.shoppostform {
+  display: block;
+  margin: 0 auto 0 0;
+  width: 95%;
+  height: 25px;
+  border: 1px solid black;
+  text-align: left;
+}
+
+.shoppostform-second,.shoppostform-third {
+  display: block;
+  margin: 0 auto 0 0;
+  width: 90%;
+  height: 25px;
+  border: 1px solid black;
+}
+
+.first-line,.second-line,.third-line,.fourth-line,.fifth-line {
+  width: 40%;
+  margin: 16px auto 0 auto;
+  
+}
+
+.second,.third,.fifth {
+  width: 50%;
+  text-align: left;
+  float: left;
+}
+
+.shopimage {
+  margin: 30px 0;
+  text-align: center;
+}
+
+.image {
+  border: 1px solid black;
+  width: 15%;
+  height: 130px;
+  display: inline-block;
+}
+
+.image2 {
+  margin: 0 15px;
+}
+
+.btn {
+  border: 1px solid black;
+  padding: 10px 50px;
+  border-radius: 5px;
+  color: black;
+  text-decoration: none;
+  display: inline-block;
+  margin-bottom: 30px;
+  margin-top: 30px;
+}
+
+.shoppost {
+  background-color:  #ffeb3b;
+  font-size: 16px;
+}
+
+footer {
+  background-color: #ffeb3b;
+  width: 100%;
+  text-align: center;
+  color: #f57c01;
+  font-weight: bold;
+  padding: 5px 0;
+  position: absolute;/*←絶対位置*/
+  bottom: 0; /*下に固定*/
+}
+
+@media screen and (max-width:767px) {
+  header p {
+    font-size: 13px;
+  }
+
+  footer p {
+    font-size: 13px;
+  }
+
+  .first-line,.second-line,.third-line,.fourth-line,.fifth-line {
+    width: 90%;
+  }
+
+  
+}

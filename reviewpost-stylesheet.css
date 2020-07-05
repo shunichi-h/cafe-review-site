@@ -1,0 +1,143 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Hiragino Kaku Gothic ProN";
+  min-height: 100vh;
+  position: relative;
+  padding-bottom: 66px;
+}
+
+/*common */
+.container {
+  width: 100%;
+  max-width: 1170px;
+  padding: : 0 15px;
+  margin: 0 auto;
+}
+
+header {
+  background-color: #ffeb3b;
+  width: 100%;
+  position: fixed;
+  top: 0;
+  z-index: 10;
+}
+
+.header-left {
+  float: left;
+  color: #f57c01;
+  margin-left: 15px;
+  font-weight: bold;
+}
+
+.header-right {
+  float: right;
+  color: #f57c01;
+  margin-right: 15px;
+  font-weight: bold;
+}
+
+.clear {
+  clear: left;
+}
+
+.reviewpostform-wrapper {
+  margin-top: 60px;
+  text-align: center;
+}
+
+.reviewpostform-wrapper p {
+  margin-bottom: 0;
+  width: 40%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.heading {
+  margin-top: 100px;
+}
+
+.reviewpostform {
+  display: block;
+  margin: 0 auto;
+  width: 40%;
+  border: 1px solid black;
+  text-align: left;
+}
+
+.text {
+  text-align: left;
+}
+
+.reviewform {
+  height: 200px;
+}
+
+.reviewdate {
+  display: none;
+}
+
+.reviewimage {
+  margin: 30px 0;
+  text-align: center;
+}
+
+.image {
+  border: 1px solid black;
+  width: 15%;
+  height: 130px;
+  display: inline-block;
+}
+
+.image2 {
+  margin: 0 15px;
+}
+
+.btn {
+  border: 1px solid black;
+  padding: 10px 50px;
+  border-radius: 5px;
+  color: black;
+  text-decoration: none;
+  display: inline-block;
+  margin-bottom: 30px;
+  margin-top: 30px;
+}
+
+.reviewpost {
+  background-color:  #ffeb3b;
+  font-size: 16px;
+}
+
+.reviewphoto1,.reviewphoto2, .reviewphoto3 {
+  margin-top: 10px;
+}
+
+footer {
+  background-color: #ffeb3b;
+  width: 100%;
+  text-align: center;
+  color: #f57c01;
+  font-weight: bold;
+  padding: 5px 0;
+  position: absolute;/*←絶対位置*/
+  bottom: 0; /*下に固定*/
+}
+
+@media screen and (max-width:767px) {
+  header p {
+    font-size: 13px;
+  }
+
+  footer p {
+    font-size: 13px;
+  }
+
+  .reviewpostform {
+    width: 90%;
+  }
+  
+}
