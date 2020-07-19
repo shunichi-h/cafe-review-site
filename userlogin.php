@@ -12,7 +12,7 @@ define('TWITTER_API_KEY', 'O05JHoIwhbxWfax7avsdymjdv'); //Twitterデベロッパ
 define('TWITTER_API_SECRET', 'V0zFNBrYxUOf971CoSHKJcX7TRRTqK0pBQaGk9C9GCtEqwwYBe');//Twitterデベロッパープラットフォームで作成したアプリケーションのConsumer Secret (API Secret)
 
 //コールバックページのURL
-define('CALLBACK_URL', 'http://localhost/callback.php');//ここで指定するURLを、Twitterデベロッパープラットフォームで作成したアプリケーションのコールバックURLとして登録する必要あり
+define('CALLBACK_URL', 'https://www.morni-cafe.com/callback.php');//ここで指定するURLを、Twitterデベロッパープラットフォームで作成したアプリケーションのコールバックURLとして登録する必要あり
 
 $access_token = '1234816620784046085-6mMlM0UbtZ29sZc2j9F27EBLprgy7L';
 $access_token_secret = 'GjRulfysOKPelpuYs4j5xuawXe2kJaBZPNy5TyEg7QdLR';
@@ -96,65 +96,35 @@ if (isset($_POST["login"])) {
         }
     }
 }
+
+
+date_default_timezone_set('Asia/Tokyo');
+
+require_once 'php-graph-sdk-5.x/src/Facebook/autoload.php';
+
+
+$fb = new Facebook\Facebook([
+  'app_id' => '1447813592077996',
+  'app_secret' => '477b0f13b0f0dae49f1cdb19339961fe',
+  'default_graph_version' => 'v2.10',
+  ]);
+
+$helper = $fb->getRedirectLoginHelper();
+
+$permissions = ['email']; // Optional permissions
+$loginUrl = $helper->getLoginUrl('https://www.morni-cafe.com/callback2.php', $permissions);
+
 ?>
 
-<script>
-
-  function statusChangeCallback(response) {  // Called with the results from FB.getLoginStatus().
-    console.log('statusChangeCallback');
-    console.log(response);                   // The current login status of the person.
-    if (response.status === 'connected') {   // Logged into your webpage and Facebook.
-      testAPI();  
-    }
-  }
-
-
-  function checkLoginState() {               // Called when a person is finished with the Login Button.
-    FB.getLoginStatus(function(response) {   // See the onlogin handler
-      statusChangeCallback(response);
-    });
-  }
-
-
-  window.fbAsyncInit = function() {
-    FB.init({
-      appId      : '1447813592077996',
-      cookie     : true,                     // Enable cookies to allow the server to access the session.
-      xfbml      : true,                     // Parse social plugins on this webpage.
-      version    : 'v7.0'           // Use this Graph API version for this call.
-    });
-
-
-    FB.getLoginStatus(function(response) {   // Called after the JS SDK has been initialized.
-      statusChangeCallback(response);        // Returns the login status.
-    });
-  };
- 
-  function testAPI() {                      // Testing Graph API after login.  See statusChangeCallback() for when this call is made.
-    console.log('Welcome!  Fetching your information.... ');
-    FB.api('/me', function(response) {
-      console.log('Successful login for: ' + response.name);
-      
-      var uername = response.name;
-      document.getElementById('form').value = uername;
-
-      if(document.getElementById('form').value != ""){
-        document.getElementById('sessionform').submit();
-      }
-      
-    });
-  }
-
-</script>
 
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>モニカフェ</title>
+  <title>モーニンカフェ</title>
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-  <link rel="stylesheet" type="text/css" href="userlogin-stylesheet.css?1234567">
+  <link rel="stylesheet" type="text/css" href="userlogin-stylesheet.css?1">
   <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
   <script　type="text/javascript" src="script.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
@@ -166,7 +136,7 @@ if (isset($_POST["login"])) {
   <header>
     <div class="container">
       <div class="header-left">
-        <p class="header-btn" onclick="transition(toppage)">モニカフェ</p>
+        <p class="header-btn" onclick="transition(toppage)">モーニンカフェ</p>
       </div>
       <div class="header-right">
        
@@ -190,13 +160,10 @@ if (isset($_POST["login"])) {
       </form>
       
       <a class="signup" href="signup.php">新規ユーザー登録はこちら</a>
-      <p>またはSNSでログイン</p>
+      <p class="snslogintext">またはSNSでログイン</p>
       <a class="btn twitter" href="<?php echo $oauthUrl; ?>"><i class="fab fa-twitter"></i>Twitterアカウントでログイン</a>
-      <div class="fb-login-button" data-size="large" data-button-type="login_with" data-layout="default" data-auto-logout-link="false" data-use-continue-as="false" data-width="">Facebookアカウントでログイン</div>
-        <form id="sessionform" method="post" action="callback2.php">
-          <input name="facebookname" id="form" type="hidden">
-        </form>
-
+      <a class="btn facebook"  href="<?PHP echo $loginUrl?>"><i class="fab fa-facebook-f"></i>Facebookアカウントでログイン</a>
+      <div class="clear"></div>
     </div>
   </div>
 
@@ -204,7 +171,7 @@ if (isset($_POST["login"])) {
 
   <footer>
     <div class="container">
-      <p>Copyright©︎SHUNICHI HATAEKYAMA. All Rights Reserved.</p>
+      <p>©︎ 2020 Shirotayama</p>
     </div>
 
   </footer>

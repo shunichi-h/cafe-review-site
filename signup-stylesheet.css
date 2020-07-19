@@ -125,6 +125,12 @@ footer {
     font-size: 13px;
   }
 
+  .btn {
+    display: inline-block;
+    width: 80%;
+    font-size: 13px;
+  }
+
   footer p {
     font-size: 13px;
   }

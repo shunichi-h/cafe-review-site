@@ -1,6 +1,9 @@
 <?php
 // セッション開始
 session_start();
+header('Expires:-1');
+header('Cache-Control:');
+header('Pragma:');
 
 $db['host'] = "mysql10048.xserver.jp";  // DBサーバのURL
 $db['user'] = "xs836976_user";  // ユーザー名
@@ -49,6 +52,10 @@ if (isset($_POST["signUp"])) {
             $userid = $pdo->lastinsertid();  // 登録した(DB側でauto_incrementした)IDを$useridに入れる
 
             $signUpMessage = '登録が完了しました。あなたのユーザー名は '. $username. ' です。パスワードは '. $userpassword. ' です。';  // ログイン時に使用するIDとパスワード
+            $_SESSION["NAME"] = $username;
+            header('location: https://www.morni-cafe.com/index.php'); // ページを移動(リダイレクト)
+            exit;
+
         } catch (PDOException $e) {
             $errorMessage = 'データベースエラー' + $e->getMessage();
             // $e->getMessage() でエラー内容を参照可能（デバッグ時のみ表示）
@@ -65,9 +72,9 @@ if (isset($_POST["signUp"])) {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>モニカフェ</title>
+  <title>モーニンカフェ</title>
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-  <link rel="stylesheet" type="text/css" href="signup-stylesheet.css?12345">
+  <link rel="stylesheet" type="text/css" href="signup-stylesheet.css?123456">
   <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
   <script　type="text/javascript" src="script.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
@@ -76,7 +83,7 @@ if (isset($_POST["signUp"])) {
   <header>
     <div class="container">
       <div class="header-left">
-        <p class="header-btn" onclick="transition(toppage)">モニカフェ</p>
+        <p class="header-btn" onclick="transition(toppage)">モーニンカフェ</p>
       </div>
       <div class="header-right">
         
@@ -118,7 +125,7 @@ if (isset($_POST["signUp"])) {
 
   <footer>
     <div class="container">
-      <p>Copyright©︎SHUNICHI HATAEKYAMA. All Rights Reserved.</p>
+      <p>©︎ 2020 Shirotayama</p>
     </div>
 
   </footer>

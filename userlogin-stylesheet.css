@@ -53,9 +53,7 @@ header {
   text-align: center;
 }
 
-.loginform-wrapper p {
-  margin-bottom: 0;
-}
+
 
 .heading {
   margin-top: 100px;
@@ -71,40 +69,44 @@ header {
 
 .signup {
   display: block;
-  margin-bottom: 50px;
+  margin-bottom: 30px;
 }
 
 .btn {
   text-decoration: none;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 10px 25px;
+  margin-top: 20px;
 }
 
 .login {
   background-color:  #ffeb3b;
   color: black;
-  border: 1px solid black;
-  border-radius: 5px;
-  padding: 10px 25px;
-  margin-top: 30px;
+  
+}
+
+.snslogintext {
+  margin-bottom: 20px;
 }
 
 .twitter {
-  background-color:  #55acee;
+  background-color:  #1DA1F2;
   color: white;
   margin-right: 20px;
-  font-weight: bold;
-  border-radius: 3px;
+  margin-top: 20px;
   padding: 10px 15px;
 }
 
-.fa-twitter {
+.facebook {
+  background-color:  #3B5998;
+  color: white;
+  padding: 10px 15px;
+}
+
+.fa-twitter, .fa-facebook-f {
   margin-right: 8px;
 }
-
-.facebook {
-  background-color: #3B5998;
-  margin-bottom: 100px;
-}
-
 
 footer {
   background-color: #ffeb3b;
@@ -130,11 +132,16 @@ footer {
     width: 90%;
   }
 
-  .twitter {
-    margin-top: 20px;
-    margin-bottom: 20px;
+  .btn {
     display: inline-block;
+    width: 80%;
+    font-size: 13px;
   }
 
+  .twitter {
+    background-color:  #55acee;
+    margin-right: 0;
+    margin-top: 0;
+  }
   
 }

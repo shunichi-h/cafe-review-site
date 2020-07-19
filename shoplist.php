@@ -1,17 +1,20 @@
 <?php
 // セッション開始
 session_start();
+header('Expires:-1');
+header('Cache-Control:');
+header('Pragma:');
 
 // ログイン状態チェック
 if (isset($_SESSION["NAME"])) {
   $loginstatus = "login";
-  $login_display = "ようこそ、".$_SESSION["NAME"]."さん";
-  $btntext = "お店を投稿する";
+  $login_display = "ようこそ、".$_SESSION["NAME"];
+  $btntext = "店情報を投稿する";
   
 }else {
   $loginstatus = "logout";
   $login_display = "ログイン";
-  $btntext = "ログインまたはユーザー登録してお店を投稿する";
+  $btntext = "ログインして店情報を投稿する";
 }
 
 $prefecturename = "";
@@ -77,9 +80,9 @@ try {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>モニカフェ</title>
+  <title>モーニンカフェ</title>
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-  <link rel="stylesheet" type="text/css" href="shoplist-stylesheet.css?1234567">
+  <link rel="stylesheet" type="text/css" href="shoplist-stylesheet.css?123456789012345">
   <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
   <script　type="text/javascript" src="script.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
@@ -88,11 +91,12 @@ try {
   <header>
     <div class="container">
       <div class="header-left">
-        <p class="header-btn" onclick="transition(toppage)">モニカフェ</p>
+        <p class="header-btn" onclick="transition(toppage)">モーニンカフェ</p>
       </div>
       <div class="header-right">
-        <p id="loginlogout-btn" class="login-btn" onclick="transition(userloginUrl)"><?php echo $login_display; ?></p>
+        <p id="loginlogout-btn" class="loginusername" onclick="transition(userloginUrl)"><?php echo $login_display; ?></p>
         <p class="loginlogoutbtn-tips">ログアウトする</p>
+        <p id="san" class="san">さん</p>
       </div>
       <div class="clear"></div>
     </div>
@@ -106,7 +110,7 @@ try {
 
       <?php foreach ($stmt as $key): ?>
         <div class="shop" onclick="submitshopform(<?php echo $key['id'] ?>)">
-        <h2><?php echo $key['shop_name'] ?></h2>
+          <h2 class="shop-heading"><?php echo $key['shop_name'] ?></h2>
           <div class="shop-photo">
             <img class="shop-image" src="
               <?php
@@ -151,7 +155,7 @@ try {
                 <div class="star-rating-front" style="width: <?PHP echo $rank*20; ?>%">★★★★★</div>
                 <div class="star-rating-back">★★★★★</div>
               </div>
-              <p><?PHP echo $rank; ?></p>
+              <p>評価：<?PHP echo round($rank,1); ?></p>
             </p>
             <p class="shop-prefecture"><?php echo $key['shop_prefecture'] ?></p>
             <p class="review-number"><i class="fas fa-comments"></i>
@@ -209,13 +213,13 @@ try {
 
   <footer>
     <div class="container">
-      <p>Copyright©︎SHUNICHI HATAEKYAMA. All Rights Reserved.</p>
+      <p>©︎ 2020 Shirotayama</p>
     </div>
 
   </footer>
 
   
-  <script src="shoplistscript.js?1234">
+  <script src="shoplistscript.js?12345">
   </script>
 </body>
 </html>

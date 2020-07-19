@@ -7,6 +7,7 @@ var logoutUrl = "logout.php";
 if(loginstatus == "logout"){
   userloginUrl = "userlogin.php";
   document.getElementById("loginlogout-btn").classList.remove('loginlogout-btn');
+  document.getElementById("san").style.display = "none";
 }else {
   userloginUrl = "shoppost.php";
   document.getElementById("loginlogout-btn").onclick = logoutcheck;

@@ -36,8 +36,22 @@ header {
 .header-right {
   float: right;
   color: #f57c01;
-  margin-right: 15px;
   font-weight: bold;
+  width: 50%;
+  text-align: right;
+}
+
+.loginusername {
+  cursor: pointer;
+  width: 80%;
+  overflow: hidden;
+	text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.san {
+  float: right;
+  width: 33px;
 }
 
 .login-btn {
@@ -53,6 +67,7 @@ header {
   position: absolute;
   display: none;
   top: 40px;
+  right: 10%;
   padding: 10px;
   font-size: 12px;
   line-height: 1.6em;
@@ -99,7 +114,15 @@ header {
   box-shadow:none;
   position: relative;
   top: 5px;
-  
+}
+
+.shop-heading {
+  width: 100%;
+  padding-left: 10px;
+  overflow: hidden;
+	text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-bottom: 5px;
 }
 
 .shop-photo {
@@ -121,7 +144,7 @@ header {
 .shop-text {
   width: 60%;
   display: inline-block;
-  margin: 15px 15px 15px 0;
+  margin: 5px 15px 15px 0;
   padding-left: 15px;
 }
 
@@ -209,6 +232,10 @@ footer {
     font-size: 13px;
   }
 
+  h2,.shop-heading  {
+    font-size: 15px;
+  }
+
   .shop {
     margin: 5px auto;
     border: 1px solid black;
@@ -226,10 +253,6 @@ footer {
     width: 40%;
     margin: 15px;
     float: left;
-  }
-
-  .shop h2 {
-    font-size: 18px;
   }
 
   .shop-text {

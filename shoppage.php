@@ -1,17 +1,22 @@
 <?php
 // セッション開始
 session_start();
+header('Expires:-1');
+header('Cache-Control:');
+header('Pragma:');
 
 // ログイン状態チェック
 if (isset($_SESSION["NAME"])) {
   $loginstatus = "login";
-  $login_display = "ようこそ、".$_SESSION["NAME"]."さん";
+  $login_display = "ようこそ、".$_SESSION["NAME"];
   $btntext = "レビューを投稿する";
+  $edittext = "店情報を編集する";
   
 }else {
   $loginstatus = "logout";
   $login_display = "ログイン";
-  $btntext = "ログインまたはユーザー登録してレビューを投稿する";
+  $btntext = "ログインしてレビューを投稿する";
+  $edittext = "ログインして店情報を編集する";
 }
 
 if (isset($_POST["shopid"])) {
@@ -77,13 +82,13 @@ try {
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>モニカフェ</title>
+  <title>モーニンカフェ</title>
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-  <link rel="stylesheet" type="text/css" href="shoppage-stylesheet.css?12345">
+  <link rel="stylesheet" type="text/css" href="shoppage-stylesheet.css?123456789012345678901234567890123456">
   <link rel="stylesheet" href="responsive.css?20200302">
   <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://unpkg.com/swiper/css/swiper.css">
-  <link rel="stylesheet" href="https://unpkg.com/swiper/css/swiper.min.css">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/5.4.5/css/swiper.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/5.4.5/css/swiper.min.css">
   <script　type="text/javascript" src="script.js"></script>
   <script src="https://unpkg.com/swiper/swiper-bundle.js"></script>
@@ -93,10 +98,12 @@ try {
   <header>
     <div class="container">
       <div class="header-left">
-        <p class="header-btn" onclick="transition(toppage)">モニカフェ</p>
+        <p class="header-btn" onclick="transition(toppage)">モーニンカフェ</p>
       </div>
       <div class="header-right">
-        <p class="login-btn" onclick="transition(userloginUrl)"><?php echo $login_display; ?></p>
+        <p id="loginlogout-btn" class="loginusername" onclick="transition(userloginUrl)"><?php echo $login_display; ?></p>
+        <p class="loginlogoutbtn-tips">ログアウトする</p>
+        <p id="san" class="san">さん</p>
       </div>
       <div class="clear"></div>
     </div>
@@ -119,12 +126,12 @@ try {
 
                     <?php
                     if(file_exists("./shopimages/{$key1['shop_photo2']}")){
-                    print "<div class='swiper-slide'><img class='slide-image' src='./shopimages/{$key1['shop_photo1']}'></div>";
+                    print "<div class='swiper-slide'><img class='slide-image' src='./shopimages/{$key1['shop_photo2']}'></div>";
                     }?>
 
                     <?php
                     if(file_exists("./shopimages/{$key1['shop_photo3']}")){
-                    print "<div class='swiper-slide'><img class='slide-image' src='./shopimages/{$key1['shop_photo1']}'></div>";
+                    print "<div class='swiper-slide'><img class='slide-image' src='./shopimages/{$key1['shop_photo3']}'></div>";
                     }?>
               </div>
               <!-- If we need pagination -->
@@ -144,19 +151,24 @@ try {
     <div class="container">
       <div class="shop-infomation">
         <?php foreach ($stmt1 as $key1): ?>
-          <h2><?php echo $key1['shop_name'] ?></h2>
+          <h2 class="shop-name"><?php echo $key1['shop_name'] ?></h2>
           <div class="star-rating">
               <div class="star-rating-front" style="width: <?PHP echo $rank*20; ?>%">★★★★★</div>
               <div class="star-rating-back">★★★★★</div>
           </div>
-          <div class="review-rank"><?php echo $rank; ?></div><br>
+          <div class="review-rank"><?php echo round($rank,1); ?></div><br>
           <p class="first-line"><?php echo $key1['shop_prefecture'] ?></p>
           <p class="first-line">最寄駅　<?php echo $key1['shop_neareststation'] ?></p>
-          <p class="first-line">営業時間　<?php echo $key1['shop_openinghours'] ?> 〜 <?php echo $key1['shop_closingtime'] ?></p>
+          <p class="first-line shop-openinghours">営業時間　<?php echo $key1['shop_openinghours'] ?> 〜 <?php echo $key1['shop_closingtime'] ?></p>
+          <p class="second-line">モーニングサービス終了：　<?php echo $key1['shop_openinghours'] ?></p>
           <p class="second-line">住所　<?php echo $key1['shop_adress'] ?></p>
           <p class="third-line">電源（コンセント）　<?php echo $key1['shop_powersupply'] ?></p>
           <p class="third-line">Free Wi-Fi　<?php echo $key1['shop_freewi-fi'] ?></p>
         <?php endforeach; ?>
+        <form name="shopupdateform" action="shopupdate.php" method="POST">
+        <input name="shopid" type="hidden" value="<?php echo $shopid; ?>">
+        <input type="submit" value="<?php echo $edittext; ?>">
+      </form>
         <div class="clear"></div>
         
       </div>
@@ -174,15 +186,42 @@ try {
       <div class="review">
       <h3 class="review-title"><?php echo $key2['review_titlle'] ?></h3>
         <div class="review-photo">
-          <img class="review-image" src="
-            <?php
-              if(file_exists("./reviewimages/{$key2['review_photo1']}")){
-              print "./reviewimages/{$key2['review_photo1']}" ;
-              }else{
-              print "./shopimages/noimage.jpg" ;
-              }
-            ?>
-          ">
+          
+            <div class="swiper-container">
+                <!-- Additional required wrapper -->
+                <div class="swiper-wrapper">
+                    <!-- Slides -->
+                      <?php
+                      if(file_exists("./reviewimages/{$key2['review_photo1']}")){
+                      print "<div class='swiper-slide'><img class='slide-image' src='./reviewimages/{$key2['review_photo1']}'></div>";
+                      }else{
+                        print "<div class='swiper-slide'><img class='slide-image' src='./shopimages/noimage.jpg'></div>";
+                      }?>
+
+                      <?php
+                      if(file_exists("./reviewimages/{$key2['review_photo2']}")){
+                      print "<div class='swiper-slide'><img class='slide-image' src='./reviewimages/{$key2['review_photo2']}'></div>";
+                      }?>
+
+                      <?php
+                      if(file_exists("./reviewimages/{$key2['review_photo3']}")){
+                      print "<div class='swiper-slide'><img class='slide-image' src='./reviewimages/{$key2['review_photo3']}'></div>";
+                      }?>
+                </div>
+                <!-- If we need pagination -->
+                <div class="swiper-pagination"></div>
+                
+                <!-- If we need navigation buttons -->
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+            </div>
+          
+
+
+
+
+
+          
         </div>
         <div class="review-text">
           
@@ -213,6 +252,7 @@ try {
         <input class="review-btn" type="submit" value="<?php echo $btntext; ?>">
       </form>
       
+      
     </div>
   </div>
 
@@ -220,12 +260,12 @@ try {
 
   <footer>
     <div class="container">
-      <p>Copyright©︎SHUNICHI HATAEKYAMA. All Rights Reserved.</p>
+      <p>©︎ 2020 Shirotayama</p>
     </div>
 
   </footer>
 
-  <script src="shoppagescript.js?123"></script>
+  <script src="shoppagescript.js?1234567"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/3.4.1/js/swiper.min.js"></script>
   <script>
 		var mySwiper = new Swiper ('.swiper-container', {

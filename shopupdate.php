@@ -24,6 +24,28 @@ $db['dbname'] = "xs836976_mornicafedb";  // データベース名
 $errorMessage = "";
 $shopPostMessage = "";
 
+if (isset($_POST["shopid"])) {
+  $shopid = $_POST["shopid"];
+}
+
+$dsn1 = sprintf('mysql: host=%s; dbname=%s; charset=utf8', $db['host'], $db['dbname']);
+
+try {
+  $pdo1 = new PDO( 'mysql:host=mysql10048.xserver.jp;dbname=xs836976_mornicafedb;charset=utf8','xs836976_user', 'shun0505');
+
+  $sql1 = "SELECT * FROM SHOP where id = $shopid";
+  $stmt1 = array();
+  foreach ($pdo1->query($sql1) as $row) {
+    array_push($stmt1,$row);
+  }
+
+} catch (PDOException $e) {
+  $errorMessage = 'データベースエラー' + $e->getMessage();
+  // $e->getMessage() でエラー内容を参照可能（デバッグ時のみ表示）
+  echo $e->getMessage();
+}
+
+
 // レビュー投稿ボタンが押された場合
 if (isset($_POST["shoppost"])) {
     // 1. レビュータイトルの入力チェック
@@ -57,18 +79,35 @@ if (isset($_POST["shoppost"])) {
         $shoppowersupply = $_POST["shoppowersupply"];
         $shopfreewifi = $_POST["shopfreewifi"];
 
-      
-        $image1 = uniqid(mt_rand(), true);//ファイル名をユニーク化
-        $image1 .= '.' . substr(strrchr($_FILES['image1']['name'], '.'), 1);//アップロードされたファイルの拡張子を取得
-        $file = "shopimages/$image1";
-
-        $image2 = uniqid(mt_rand(), true);//ファイル名をユニーク化
-        $image2 .= '.' . substr(strrchr($_FILES['image2']['name'], '.'), 1);//アップロードされたファイルの拡張子を取得
-        $file = "shopimages/$image2";
-
-        $image3 = uniqid(mt_rand(), true);//ファイル名をユニーク化
-        $image3 .= '.' . substr(strrchr($_FILES['image3']['name'], '.'), 1);//アップロードされたファイルの拡張子を取得
-        $file = "shopimages/$image3";
+        if(!empty($_FILES['image1'])){
+          $image1 = uniqid(mt_rand(), true);//ファイル名をユニーク化
+          $image1 .= '.' . substr(strrchr($_FILES['image1']['name'], '.'), 1);//アップロードされたファイルの拡張子を取得
+          $file = "shopimages/$image1";
+        }else {
+          foreach ($stmt1 as $key1){
+            $image1 = $key1['shop_photo1'];
+          }
+        }
+        
+        if(!empty($_FILES['image2'])){
+          $image2 = uniqid(mt_rand(), true);//ファイル名をユニーク化
+          $image2 .= '.' . substr(strrchr($_FILES['image2']['name'], '.'), 1);//アップロードされたファイルの拡張子を取得
+          $file = "shopimages/$image2";
+        }else {
+          foreach ($stmt1 as $key1){
+            $image1 = $key1['shop_photo2'];
+          }
+        }
+        
+        if(!empty($_FILES['image3'])){
+          $image3 = uniqid(mt_rand(), true);//ファイル名をユニーク化
+          $image3 .= '.' . substr(strrchr($_FILES['image3']['name'], '.'), 1);//アップロードされたファイルの拡張子を取得
+          $file = "shopimages/$image3";
+        }else {
+          foreach ($stmt1 as $key1){
+            $image1 = $key1['shop_photo3'];
+          }
+        }
     
         // 2. ユーザ名とメールアドレスとパスワードが入力されていたら認証する
         $dsn = sprintf('mysql: host=%s; dbname=%s; charset=utf8', $db['host'], $db['dbname']);
@@ -77,16 +116,23 @@ if (isset($_POST["shoppost"])) {
         try {
           $pdo = new PDO( 'mysql:host=mysql10048.xserver.jp;dbname=xs836976_mornicafedb;charset=utf8','xs836976_user', 'shun0505');
 
-            $stmt = $pdo->prepare("INSERT INTO SHOP(`shop_name`, `shop_prefecture`, `shop_neareststation`, `shop_adress`, `shop_openinghours`, `shop_closingtime`, `shop_morninghoursclose`, `shop_powersupply`, `shop_freewi-fi`, `shop_photo1`, `shop_photo2`, `shop_photo3`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt = $pdo->prepare("UPDATE SHOP SET `shop_name` = ?, `shop_prefecture` = ?, `shop_neareststation` = ?, `shop_adress` = ?, `shop_openinghours` = ?, `shop_closingtime` = ?, `shop_morninghoursclose` = ?, `shop_powersupply` = ?, `shop_freewi-fi` = ?, `shop_photo1` = ?, `shop_photo2` = ?, `shop_photo3` = ? WHERE `id` = $shopid");
 
             $stmt->execute(array($shopname, $shopprefecture, $shopneareststation, $shopadress, $shopopeninghours, $shopclosingtime, $shopmorninghoursclose, $shoppowersupply, $shopfreewifi, $image1, $image2, $image3));  // パスワードのハッシュ化を行う（今回は文字列のみなのでbindValue(変数の内容が変わらない)を使用せず、直接excuteに渡しても問題ない）
-            $userid = $pdo->lastinsertid();  // 登録した(DB側でauto_incrementした)IDを$useridに入れる
+            
+            if(!empty($_FILES['image1'])){
+              move_uploaded_file($_FILES['image1']['tmp_name'], './shopimages/' . $image1);//imagesディレクトリにファイル保存
+            }
 
-            move_uploaded_file($_FILES['image1']['tmp_name'], './shopimages/' . $image1);//imagesディレクトリにファイル保存
-            move_uploaded_file($_FILES['image2']['tmp_name'], './shopimages/' . $image2);//imagesディレクトリにファイル保存
-            move_uploaded_file($_FILES['image3']['tmp_name'], './shopimages/' . $image3);//imagesディレクトリにファイル保存
+            if(!empty($_FILES['image2'])){
+              move_uploaded_file($_FILES['image2']['tmp_name'], './shopimages/' . $image2);//imagesディレクトリにファイル保存
+            }
 
-            $shopPostMessage = 'お店の投稿が完了しました。';  // ログイン時に使用するIDとパスワード
+            if(!empty($_FILES['image3'])){
+              move_uploaded_file($_FILES['image3']['tmp_name'], './shopimages/' . $image3);//imagesディレクトリにファイル保存
+            }
+
+            $shopPostMessage = '店情報の更新が完了しました。';  // ログイン時に使用するIDとパスワード
         } catch (PDOException $e) {
             $errorMessage = 'データベースエラー' + $e->getMessage();
             // $e->getMessage() でエラー内容を参照可能（デバッグ時のみ表示）
@@ -139,7 +185,7 @@ $time_array = array(
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>モーニンカフェ</title>
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
-  <link rel="stylesheet" type="text/css" href="shoppost-stylesheet.css?12345678">
+  <link rel="stylesheet" type="text/css" href="shoppost-stylesheet.css?1234567">
   <link rel="stylesheet" href="responsive.css?20200302">
   <link href="https://use.fontawesome.com/releases/v5.6.1/css/all.css" rel="stylesheet">
   <script　type="text/javascript" src="script.js"></script>
@@ -162,21 +208,22 @@ $time_array = array(
 
   <div class="shoppostform-wrapper">
     <div class="container">
-      <h2 class="heading">店情報の投稿</h2>
+      <h2 class="heading">店情報の編集</h2>
       <div><font color="#ff0000"><?php echo htmlspecialchars($errorMessage, ENT_QUOTES); ?></font></div>
       <div><font color="#0000ff"><?php echo htmlspecialchars($shopPostMessage, ENT_QUOTES); ?></font></div>
       <form id="shoppostForm" name="shoppostForm" action="" method="POST" enctype="multipart/form-data">
+      <?php foreach ($stmt1 as $key1): ?>
 
         <div class="item first-line">
           <label class="label-first" for="shopname">店名</label>
-          <input class="shoppostform" type="text" id="shopname" name="shopname" value="<?php if( !empty($_POST['shopname']) ){ echo $_POST['shopname']; } ?>" placeholder="店名を入力">
+          <input class="shoppostform" type="text" id="shopname" name="shopname" value="<?php echo $key1['shop_name'] ?>" placeholder="店名を入力">
         </div>
       
         <div class="item second-line">
           <div class="second second-left">
             <label class="label-second" for="shopprefecture">都道府県</label>
             <select class="shoppostform-second" id="shopprefecture" name="shopprefecture">
-              <option value="" selected>都道府県</option>
+              <option value="<?php echo $key1['shop_prefecture'] ?>" selected><?php echo $key1['shop_prefecture'] ?></option>
               <?php foreach ($prefecture_array as $key_prefecture): ?>
                 <option value="<?php echo $key_prefecture ?>" <?php if( !empty($_POST['shopprefecture']) && $_POST['shopprefecture'] == $key_prefecture ){ echo 'selected'; } ?>><?php echo $key_prefecture ?></option>
               <?php endforeach; ?>
@@ -184,7 +231,7 @@ $time_array = array(
           </div>
           <div class="second second-right">
             <label class="label-second" for="shopneareststation">最寄駅</label>
-            <input class="shoppostform-second" type="text" id="shopneareststation" name="shopneareststation" value="<?php if( !empty($_POST['shopneareststation']) ){ echo $_POST['shopneareststation']; } ?>" placeholder="最寄駅を入力">
+            <input class="shoppostform-second" type="text" id="shopneareststation" name="shopneareststation" value="<?php echo $key1['shop_neareststation'] ?>" placeholder="最寄駅を入力">
           </div>
           <div class="clear"></div>
         </div>
@@ -194,7 +241,7 @@ $time_array = array(
           <div class="third third-left">
             <label class="label-third" for="shopopeninghours">開店時間</label>
             <select class="shoppostform-third" id="shopopeninghours" name="shopopeninghours">
-              <option value="" selected>--:--</option>
+              <option value="<?php echo $key1['shop_openinghours'] ?>" selected><?php echo $key1['shop_openinghours'] ?></option>
               <?php foreach ($time_array as $key_time1): ?>
                 <option value="<?php echo $key_time1 ?>" <?php if( !empty($_POST['shopopeninghours']) && $_POST['shopopeninghours'] == $key_time1 ){ echo 'selected'; } ?>><?php echo $key_time1 ?></option>
               <?php endforeach; ?>
@@ -203,7 +250,7 @@ $time_array = array(
           <div class="third third-right">
             <label class="label-third" for="shopclosingtime">閉店時間</label>
             <select class="shoppostform-third" id="shopclosingtime" name="shopclosingtime">
-              <option value="" selected>--:--</option>
+              <option value="<?php echo $key1['shop_closingtime'] ?>" selected><?php echo $key1['shop_closingtime'] ?></option>
               <?php foreach ($time_array as $key_time2): ?>
                 <option value="<?php echo $key_time2 ?>" <?php if( !empty($_POST['shopclosingtime']) && $_POST['shopclosingtime'] == $key_time2 ){ echo 'selected'; } ?>><?php echo $key_time2 ?></option>
               <?php endforeach; ?>
@@ -215,7 +262,7 @@ $time_array = array(
         <div class="item fourth-line">
           <label class="label-fourth" for="shopmorninghoursclose">モーニングサービス終了時間</label>
           <select class="shoppostform" id="shopmorninghoursclose" name="shopmorninghoursclose">
-              <option value="" selected>--:--</option>
+              <option value="<?php echo $key1['shop_morninghoursclose'] ?>" selected><?php echo $key1['shop_morninghoursclose'] ?></option>
               <?php foreach ($time_array as $key_time3): ?>
                 <option value="<?php echo $key_time3 ?>" <?php if( !empty($_POST['shopmorninghoursclose']) && $_POST['shopmorninghoursclose'] == $key_time3 ){ echo 'selected'; } ?>><?php echo $key_time3 ?></option>
               <?php endforeach; ?>
@@ -224,19 +271,19 @@ $time_array = array(
 
         <div class="item fourth-line">
           <label class="label-fourth" for="shopadress">住所</label>
-          <input class="shoppostform" type="text" id="shopadress" name="shopadress" value="<?php if( !empty($_POST['shopadress']) ){ echo $_POST['shopadress']; } ?>" placeholder="住所を入力">
+          <input class="shoppostform" type="text" id="shopadress" name="shopadress" value="<?php echo $key1['shop_adress'] ?>" placeholder="住所を入力">
         </div>
 
         <div class="item fifth-line">
           <div class="fifth fifth-left">
             <label class="label-fifth" for="shoppowersupply">電源（コンセント）</label><br>
-            <label><input type="radio" id="shoppowersupply" name="shoppowersupply" value="○" <?php if( !empty($_POST['shoppowersupply']) && $_POST['shoppowersupply'] === "○" ){ echo 'checked'; } ?>>有り</label>
-            <label><input type="radio" id="shoppowersupply" name="shoppowersupply" value="×" <?php if( !empty($_POST['shoppowersupply']) && $_POST['shoppowersupply'] === "×" ){ echo 'checked'; } ?>>無し</label>
+            <label><input type="radio" id="shoppowersupply" name="shoppowersupply" value="○" <?php if( !empty($key1['shop_powersupply']) && $key1['shop_powersupply'] === "○" ){ echo 'checked'; } ?>>有り</label>
+            <label><input type="radio" id="shoppowersupply" name="shoppowersupply" value="×" <?php if( !empty($key1['shop_powersupply']) && $key1['shop_powersupply'] === "×" ){ echo 'checked'; } ?>>無し</label>
           </div>
           <div class="fifth fifth-right">
             <label class="label-fifth" for="shopfreewifi">Free Wi-Fi</label><br>
-            <label><input type="radio" id="shopfreewifi" name="shopfreewifi" value="○" <?php if( !empty($_POST['shopfreewifi']) && $_POST['shopfreewifi'] === "○" ){ echo 'checked'; } ?>>有り</label>
-            <label><input type="radio" id="shopfreewifi" name="shopfreewifi" value="×" <?php if( !empty($_POST['shopfreewifi']) && $_POST['shopfreewifi'] === "×" ){ echo 'checked'; } ?>>無し</label>
+            <label><input type="radio" id="shopfreewifi" name="shopfreewifi" value="○" <?php if( !empty($key1['shop_freewi-fi']) && $key1['shop_freewi-fi'] === "○" ){ echo 'checked'; } ?>>有り</label>
+            <label><input type="radio" id="shopfreewifi" name="shopfreewifi" value="×" <?php if( !empty($key1['shop_freewi-fi']) && $key1['shop_freewi-fi'] === "×" ){ echo 'checked'; } ?>>無し</label>
           </div>
   
           <label class="shopphoto1" for="shopphoto1">写真１</label>
@@ -250,10 +297,10 @@ $time_array = array(
 
           <div class="clear"></div>
         </div>
+        <input name="shopid" type="hidden" value="<?php echo $shopid; ?>">
+        <input class="btn shoppost" type="submit" id="shoppost" name="shoppost" value="店情報を更新する">
 
-        <input class="btn shoppost" type="submit" id="shoppost" name="shoppost" value="投稿する">
-
-
+      <?php endforeach; ?>
       </form>
       
     </div>
@@ -269,7 +316,7 @@ $time_array = array(
   </footer>
 
   
-  <script src="shoppostscript.js?12345">
+  <script src="shoppostscript.js?1234">
   </script>
 </body>
 </html>

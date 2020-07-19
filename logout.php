@@ -19,7 +19,7 @@ $_SESSION = array();
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>モニカフェ</title>
+  <title>モーニンカフェ</title>
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
   <link rel="stylesheet" type="text/css" href="logout-stylesheet.css?123">
   <link rel="stylesheet" href="responsive.css?20200302">
@@ -31,7 +31,7 @@ $_SESSION = array();
   <header>
     <div class="container">
       <div class="header-left">
-        <p class="header-btn" onclick="transition(toppage)">モニカフェ</p>
+        <p class="header-btn" onclick="transition(toppage)">モーニンカフェ</p>
       </div>
       <div class="header-right">
        
@@ -52,7 +52,7 @@ $_SESSION = array();
 
   <footer>
     <div class="container">
-      <p>Copyright©︎SHUNICHI HATAEKYAMA. All Rights Reserved.</p>
+      <p>©︎ 2020 Shirotayama</p>
     </div>
 
   </footer>
